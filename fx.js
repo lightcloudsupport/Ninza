@@ -5,6 +5,29 @@
   const add = (tag, id) => { const e = document.createElement(tag); e.id = id; document.body.prepend(e); return e; };
   const bar = add('div', 'fxBar'), glow = add('div', 'fxGlow'), bg = add('div', 'fxBg');
 
+
+  // theme picker
+  const themes = [['dark','Dark','#5b8cff'],['light','Light','#f2e6e8'],['sunset','Sunset','#ff7a3d'],['orchid','Orchid','#c05cff'],['wine','Wine','#c0185a'],['gold','Gold','#f5b82e'],['crimson','Crimson','#ff2837']];
+  const store = { get: () => { try { return localStorage.getItem('ninza-theme'); } catch (e) { return null; } }, set: v => { try { localStorage.setItem('ninza-theme', v); } catch (e) {} } };
+  const meta = document.querySelector('meta[name=theme-color]');
+  const tw = document.createElement('div'); tw.className = 'theme-wrap';
+  tw.innerHTML = '<button class="theme-btn" aria-haspopup="true" aria-expanded="false"><i></i><span>Themes</span></button><div class="theme-menu" role="menu"><small>CHOOSE THEME</small>' + themes.map(t => `<button class="theme-opt" role="menuitem" data-t="${t[0]}"><i style="--sw:${t[2]}"></i>${t[1]}</button>`).join('') + '</div>';
+  document.body.append(tw);
+  const tbtn = tw.querySelector('.theme-btn');
+  const applyTheme = (t, save) => {
+    if (!themes.some(x => x[0] === t)) t = 'crimson';
+    document.documentElement.dataset.theme = t;
+    tw.querySelectorAll('.theme-opt').forEach(o => o.classList.toggle('on', o.dataset.t === t));
+    const sw = themes.find(x => x[0] === t)[2]; tbtn.style.setProperty('--sw', sw);
+    requestAnimationFrame(() => { if (meta) meta.content = getComputedStyle(document.body).backgroundColor; });
+    if (save) store.set(t);
+  };
+  tbtn.addEventListener('click', e => { e.stopPropagation(); const o = tw.classList.toggle('open'); tbtn.setAttribute('aria-expanded', o); });
+  tw.querySelectorAll('.theme-opt').forEach(o => o.addEventListener('click', () => { applyTheme(o.dataset.t, true); tw.classList.remove('open'); }));
+  document.addEventListener('click', e => { if (!tw.contains(e.target)) tw.classList.remove('open'); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') tw.classList.remove('open'); });
+  applyTheme(store.get() || 'crimson', false);
+
   // wrap hero illustration so it can rotate in 3D
   const art = document.querySelector('.hero-art');
   if (art) { const w = document.createElement('div'); w.className = 'hero-scene'; w.append(...art.childNodes); art.append(w); }
