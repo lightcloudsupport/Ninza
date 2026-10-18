@@ -1,0 +1,56 @@
+/* NINZA CLOUD — scroll + 3D effects layer */
+#fxBar{position:fixed;top:0;left:0;height:3px;width:100%;z-index:50;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#a90015,#ff2837,#ff8a92);box-shadow:0 0 14px #ff2837}
+#fxGlow{position:fixed;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;z-index:-1;pointer-events:none;border-radius:50%;background:radial-gradient(circle,#ff283726,transparent 65%);transition:opacity .3s;opacity:0}
+#fxBg{position:fixed;inset:-10% 0;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 15% 30%,#7a0f1d33,transparent 40%),radial-gradient(ellipse at 85% 70%,#a9001526,transparent 45%);will-change:transform}
+.topbar{transition:height .3s,background .3s,box-shadow .3s}
+.topbar.scrolled{height:62px;background:#070202f2;box-shadow:0 10px 40px #000a}
+.topbar nav a{position:relative}
+.topbar nav a:after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:#ff2837;transform:scaleX(0);transition:transform .3s;box-shadow:0 0 8px #ff2837}
+.topbar nav a.active{color:#fff}.topbar nav a.active:after,.topbar nav a:hover:after{transform:scaleX(1)}
+
+/* scroll reveal (uses individual transform props so 3D tilt can coexist) */
+.reveal{opacity:0;translate:0 46px;scale:.96;filter:blur(6px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),translate .8s cubic-bezier(.2,.7,.2,1),scale .8s cubic-bezier(.2,.7,.2,1),filter .8s;transition-delay:var(--d,0s)}
+.reveal.from-left{translate:-60px 0}.reveal.from-right{translate:60px 0}
+.reveal.in{opacity:1;translate:0 0;scale:1;filter:none}
+
+/* 3D tilt cards */
+.grid,.hero-art,.panel-graphic{perspective:1100px}
+.tilt{transform-style:preserve-3d;transition:transform .12s ease-out,border-color .25s,box-shadow .25s!important;will-change:transform;position:relative;overflow:hidden}
+.tilt:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),#ff4a5a2e,transparent 55%)}
+.tilt:hover:before{opacity:1}
+.tilt:hover{box-shadow:0 25px 60px #000a,0 0 40px #ff28371a}
+.tilt>*{transform:translateZ(22px)}
+.tilt .icon{transform:translateZ(40px)}
+.plan.featured{animation:pulseGlow 3.5s ease-in-out infinite}
+@keyframes pulseGlow{50%{box-shadow:inset 0 0 50px #bb0b1c0c,0 0 45px #ff283733}}
+
+/* hero 3D scene */
+.hero-art{transform-style:preserve-3d}
+.hero-scene{position:absolute;inset:0;display:grid;place-items:center;transform-style:preserve-3d;transition:transform .15s ease-out}
+.orbit-one{animation:spinA 14s linear infinite}.orbit-two{animation:spinB 22s linear infinite}
+@keyframes spinA{to{transform:rotate(336deg)}}@keyframes spinB{to{transform:rotate(-327deg)}}
+.core{animation:coreFloat 5s ease-in-out infinite;transform:translateZ(60px)}
+@keyframes coreFloat{50%{translate:0 -14px;box-shadow:0 0 110px #ff1c2b35,inset 0 0 35px #f11b2b1f}}
+.float-card{animation:fl 6s ease-in-out infinite;transform:translateZ(90px)}.float-bottom{animation-delay:-3s}
+@keyframes fl{50%{translate:0 -12px}}
+.core-logo{animation:logoSpin 8s ease-in-out infinite}
+@keyframes logoSpin{0%,100%{transform:rotateY(0)}50%{transform:rotateY(180deg)}}
+.hero h1 span{background-size:200% 100%;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.hero-art:after{content:"";position:absolute;width:240px;height:40px;bottom:30px;border-radius:50%;background:radial-gradient(#ff283740,transparent 70%);filter:blur(8px);animation:sh 5s ease-in-out infinite}
+@keyframes sh{50%{transform:scale(.8);opacity:.5}}
+
+/* dashboard window: scroll-driven 3D */
+.panel-window{transform:perspective(900px) rotateY(var(--ry,-12deg)) rotateX(var(--rx,6deg));transition:transform .2s ease-out}
+.window-stats i,.window-service{animation:load 2.4s ease-in-out infinite}.window-stats i:nth-child(2){animation-delay:.3s}.window-stats i:nth-child(3){animation-delay:.6s}
+@keyframes load{50%{filter:brightness(1.9)}}
+.button{position:relative;overflow:hidden}
+.button.primary:after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(110deg,transparent,#ffffff40,transparent);transform:skewX(-20deg);transition:left .6s}
+.button.primary:hover:after{left:130%}
+.metrics article{transition:background .3s}.metrics article:hover{background:#2a0b10}
+.section-title h2,.panel-copy h2{background:linear-gradient(90deg,#fff 40%,#ff7c85);-webkit-background-clip:text;background-clip:text;color:transparent}
+.panel-copy h2 span{background:linear-gradient(90deg,#fff,#ff515b 55%,#a60016);-webkit-background-clip:text;background-clip:text}
+@media(hover:none){.tilt:before{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.reveal{opacity:1;translate:0 0;scale:1;filter:none}}
+.qcard{display:block}.qcard p{color:#ff858c!important;font-size:12px!important;letter-spacing:.5px}
+.domains-cta,#domains>.wrap>.button{margin-top:6px}

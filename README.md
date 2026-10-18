@@ -5,6 +5,7 @@ A responsive dark-red / black Nebula-inspired website for the NINZA CLOUD brand.
 ## Files
 - `index.html` — complete single-page website structure
 - `style.css` — responsive theme, hero illustration, cards, plan grids and panel preview
+- `fx.css` / `fx.js` — scroll progress, reveal-on-scroll, 3D tilt cards, 3D hero, parallax, dashboard scroll-3D
 - `app.js` — mobile navigation, demo subdomain format checker and FAQ interactions
 - `CNAME` — custom-domain file for GitHub Pages
 - `.nojekyll` — disables Jekyll processing
